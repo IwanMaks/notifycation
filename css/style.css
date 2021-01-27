@@ -1,0 +1,86 @@
+body {
+  font-family: Roboto, sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+button:active, button:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.cards {
+  margin-top: 20px;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  padding: 5px 12px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.place-and-date {
+  display: flex;
+  align-items: center;
+}
+
+.place, .date {
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.conf-name {
+  color: #0b76d8;
+  font-weight: bold;
+  font-size: 24px;
+}
+.conf-name:hover {
+  color: black;
+  transition: all 300ms ease-in;
+}
+
+.buttons-and-links {
+  text-align: center;
+}
+
+.notification {
+  font-family: Roboto, sans-serif;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  padding: 6px 12px;
+  margin-bottom: 5px;
+  transition: all 300ms ease-in;
+}
+.notification:hover {
+  color: white;
+  border: 1px solid #0b76d8;
+  background: #0b76d8;
+  transition: all 300ms ease-in;
+}
+
+.twitter {
+  font-family: Roboto, sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+/*# sourceMappingURL=style.css.map */
