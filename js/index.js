@@ -1,40 +1,29 @@
 let data = []
 const cards = document.querySelector('.cards')
 
-const setNotify = () => {
+const trueNotify = name => {
+    new Notification('Уведомление от календаря', {
+        body: 'Теперь вы получите уведомление о конференции ' + name,
+        icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+    });
+
+
+}
+
+const setNotify = event => {
+    const date = event.target.dataset.date
+    const name = event.target.dataset.name
+
+    localStorage.setItem(name, date)
+
     if (!("Notification" in window)) {
         alert('Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.');
     } else if (Notification.permission === "granted") {
-        let notification = new Notification('Уведомление от календаря', {
-            body: 'Теперь вы получите уведомление об этом событии',
-            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-        });
-
-        function clickFunc() { alert('Пользователь кликнул на уведомление'); }
-
-        notification.onclick = clickFunc;
+        trueNotify(name)
     } else if (Notification.permission !== 'denied') {
         Notification.requestPermission(function (permission) {
-
             if (permission === "granted") {
-                let notification = new Notification('Уведомление от календаря', {
-                    body: 'Теперь вы получите уведомление об этом событии',
-                    icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-                });
-
-            } else {
-                alert('Вы запретили показывать уведомления');
-            }
-        });
-    } else {
-        Notification.requestPermission(function (permission) {
-            permission = "granted"
-            if (permission === "granted") {
-                let notification = new Notification('Уведомление от календаря', {
-                    body: 'Теперь вы получите уведомление об этом событии',
-                    icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-                });
-
+                trueNotify(name)
             } else {
                 alert('Вы запретили показывать уведомления');
             }
@@ -73,7 +62,6 @@ const dateFormat = date => {
 
 const renderCard = confData => {
     confData.forEach(item => {
-        console.log(item.startDate.slice(8, 10))
         let place = ''
         let date = ''
         let twitter = ''
@@ -106,11 +94,10 @@ const renderCard = confData => {
                     <div class="conf-name">
                         <a href="${item.url}" target="_blank">${item.name}</a>
                     </div>
-                    ${item.city && item.country ? place : date
-                    }
+                    ${item.city && item.country ? place : date }
                 </div>
                 <div class="buttons-and-links">
-                    <button class="notification" onclick="setNotify()">Notify me!</button>
+                    <button class="notification" onclick="setNotify(event)" data-date="${item.startDate}" data-name="${item.name}">Notify me!</button>
                     ${twitter}
                 </div>
             </div>
