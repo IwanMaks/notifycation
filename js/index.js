@@ -1,3 +1,12 @@
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('../sw_cached_site.js')
+            .then(reg => console.log('Service Worker: Registered (Pages)'))
+            .catch(err => console.log(`Service Worker: Error: ${err}`));
+    });
+}
+
 let dataJson = []
 const cards = document.querySelector('.events-list__wrapper')
 const allSub = document.querySelector('.container__header__subscription-button')
@@ -13,11 +22,19 @@ allSub.addEventListener('click', event => {
             localStorage.setItem(item.name, item.startDate)
         })
         localStorage.setItem('all', 'true')
+        new Notification('The notification from the calendar', {
+            body: 'You will now receive notifications about all conferences',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
         event.target.textContent = 'Cancel all my subscriptions'
         allSub.className = 'container__header__subscription-button-error'
         renderCard(dataJson)
     } else {
         localStorage.clear()
+        new Notification('The notification from the calendar', {
+            body: 'You have unsubscribed from notifications to all conferences',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
         event.target.textContent = 'Notify me of all upcoming events'
         allSub.className = 'container__header__subscription-button'
         renderCard(dataJson)
