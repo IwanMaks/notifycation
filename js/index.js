@@ -1,13 +1,48 @@
 let data = []
 const cards = document.querySelector('.cards')
 
+const setNotifyReload = (data) => {
+    data.forEach(item => {
+        if (localStorage.getItem(item.name)) {
+            if (Date.parse(localStorage.getItem(item.name))-Date.now() < 0) {
+                new Notification('Уведомление от календаря', {
+                    body: 'Конференция ' + item.name + ' закончилась',
+                    icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+                });
+                localStorage.removeItem(item.name)
+            } else {
+                while (true) {
+                    if (Date.parse(localStorage.getItem(name))-Date.now() === 259200000){
+                        new Notification('Уведомление от календаря', {
+                            body: 'До конференции ' + name + ' осталось 3 дня',
+                            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+                        });
+                        break;
+                    }
+                }
+            }
+        }
+    })
+}
+
 const trueNotify = name => {
     new Notification('Уведомление от календаря', {
         body: 'Теперь вы получите уведомление о конференции ' + name,
         icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
     });
 
-
+    if (Date.parse(localStorage.getItem(name))-Date.now() < 0) {
+        new Notification('Уведомление от календаря', {
+            body: 'Конференция ' + name + ' закончилась',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+        localStorage.removeItem(name)
+    } else if (Date.parse(localStorage.getItem(name))-Date.now() === 259200000){
+        new Notification('Уведомление от календаря', {
+            body: 'До конференции ' + name + ' осталось 3 дня',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+    }
 }
 
 const setNotify = event => {
@@ -114,6 +149,7 @@ request.addEventListener('readystatechange', () => {
 
     if (request.status === 200) {
         data = JSON.parse(request.response)
+        setNotifyReload(data)
         renderCard(data)
     } else {
         console.log('Error');
