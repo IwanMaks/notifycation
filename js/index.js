@@ -141,7 +141,6 @@ request.addEventListener('readystatechange', () => {
 
     if (request.status === 200) {
         data = JSON.parse(request.response)
-        setNotifyReload(data)
         renderCard(data)
     } else {
         console.log('Error');
