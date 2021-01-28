@@ -49,7 +49,7 @@
   {
     "name": "JSworld",
     "url": "http://www.jsworldconference.com",
-    "startDate": "2021-01-31",
+    "startDate": "2021-02-22",
     "endDate": "2021-02-27",
     "online": true,
     "cfpUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeIu75vqZm3_aPIyi8iLOtv5W2QRsFlj7fhOIDYVDjiaXwa9g/viewform",
@@ -61,7 +61,7 @@
   {
     "name": "Vue.js Amsterdam",
     "url": "http://www.vuejs.amsterdam",
-    "startDate": "2021-02-01",
+    "startDate": "2021-02-26",
     "endDate": "2021-02-27",
     "online": true,
     "cfpUrl": "https://forms.gle/4gMUH8yKnacDRxa17",
@@ -73,7 +73,7 @@
   {
     "name": "ReactiveConf",
     "url": "https://reactiveconf.com",
-    "startDate": "2021-01-30",
+    "startDate": "2021-03-08",
     "endDate": "2021-03-09",
     "city": "Prague",
     "country": "Czech Republic",
