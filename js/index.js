@@ -1,28 +1,51 @@
-let data = []
-const cards = document.querySelector('.cards')
+let dataJson = []
+const cards = document.querySelector('.events-list__wrapper')
+const allSub = document.querySelector('.container__header__subscription-button')
+
+if (localStorage.getItem('all')) {
+    allSub.textContent = 'Cancel all my subscriptions'
+    allSub.className = 'container__header__subscription-button-error'
+}
+
+allSub.addEventListener('click', event => {
+    if (!localStorage.getItem('all')) {
+        dataJson.forEach(item => {
+            localStorage.setItem(item.name, item.startDate)
+        })
+        localStorage.setItem('all', 'true')
+        event.target.textContent = 'Cancel all my subscriptions'
+        allSub.className = 'container__header__subscription-button-error'
+        renderCard(dataJson)
+    } else {
+        localStorage.clear()
+        event.target.textContent = 'Notify me of all upcoming events'
+        allSub.className = 'container__header__subscription-button'
+        renderCard(dataJson)
+    }
+})
 
 const logicDate = (date, name) => {
     if (date-Date.now() < 0) {
-        new Notification('Уведомление от календаря', {
-            body: 'Конференция ' + name + ' закончилась',
+        new Notification('The notification from the calendar', {
+            body: 'Conference ' + name + ' finished',
             icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
         });
         localStorage.removeItem(name)
     } else if (date-Date.now() < 345600000 && date-Date.now() > 172800000 && !localStorage.getItem(name+'-3')){
-        new Notification('Уведомление от календаря', {
-            body: 'Конференция ' + name + ' начнётся через 3 дня',
+        new Notification('The notification from the calendar', {
+            body: 'Conference ' + name + ' starts in 3 days',
             icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
         });
         localStorage.setItem(name+'-3', 'true')
     } else if (date-Date.now() < 691200000 && date-Date.now() > 518400000 && !localStorage.getItem(name+'-7')) {
-        new Notification('Уведомление от календаря', {
-            body: 'Конференция ' + name + ' начнётся через 7 дней',
+        new Notification('The notification from the calendar', {
+            body: 'Conference ' + name + ' starts in 7 days',
             icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
         });
         localStorage.setItem(name+'-7', 'true')
     } else if (date-Date.now() < 1296000000 && date-Date.now() > 1123200000 && !localStorage.getItem(name+'-14')) {
-        new Notification('Уведомление от календаря', {
-            body: 'Конференция ' + name + ' начнётся через 14 дней',
+        new Notification('The notification from the calendar', {
+            body: 'Conference ' + name + ' starts in 14 days',
             icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
         });
         localStorage.setItem(name+'-14', 'true')
@@ -30,6 +53,7 @@ const logicDate = (date, name) => {
 }
 
 const setNotifyReload = (data) => {
+    dataJson = data
     data.forEach(item => {
         if (localStorage.getItem(item.name)) {
             const date = Date.parse(localStorage.getItem(item.name))
@@ -39,8 +63,8 @@ const setNotifyReload = (data) => {
 }
 
 const trueNotify = name => {
-    new Notification('Уведомление от календаря', {
-        body: 'Теперь вы получите уведомление о конференции ' + name,
+    new Notification('The notification from the calendar', {
+        body: 'You will now receive a notification about the conference ' + name,
         icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
     });
 
@@ -49,14 +73,23 @@ const trueNotify = name => {
     logicDate(date, name)
 }
 
+const realDate = date => {
+    if (Date.parse(date) - Date.now() < 0) {
+        return 'Finished'
+    } else {
+        return 'Upcoming'
+    }
+}
+
 const setNotify = event => {
     const date = event.target.dataset.date
     const name = event.target.dataset.name
 
     localStorage.setItem(name, date)
+    renderCard(dataJson)
 
     if (!("Notification" in window)) {
-        alert('Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.');
+        alert('Your browser unsupported HTML Notifications, it needs to be updated.');
     } else if (Notification.permission === "granted") {
         trueNotify(name)
     } else if (Notification.permission !== 'denied') {
@@ -64,101 +97,78 @@ const setNotify = event => {
             if (permission === "granted") {
                 trueNotify(name)
             } else {
-                alert('Вы запретили показывать уведомления');
+                alert('You have banned the display of notifications');
             }
         });
     }
 }
 
-const dateFormat = date => {
-    switch (date.slice(5, 7)) {
-        case '01':
-            return 'Января'
-        case '02':
-            return 'Фервраля'
-        case '03':
-            return 'Марта'
-        case '04':
-            return 'Апреля'
-        case '05':
-            return 'Мая'
-        case '06':
-            return 'Июня'
-        case '07':
-            return 'Июля'
-        case '08':
-            return 'Августа'
-        case '09':
-            return 'Сентября'
-        case '10':
-            return 'Октября'
-        case '11':
-            return 'Ноября'
-        case '12':
-            return 'Декабря'
+const clearNotify = (event) => {
+    localStorage.removeItem(event.target.dataset.name)
+    if (localStorage.getItem('all')) {
+        localStorage.removeItem('all')
+        allSub.textContent = 'Notify me of all upcoming events'
+        allSub.className = 'container__header__subscription-button'
     }
+    renderCard(dataJson)
 }
 
 const renderCard = confData => {
+    cards.textContent = ''
     confData.forEach(item => {
-        let place = ''
-        let date = ''
-        let twitter = ''
-        if (item.city && item.country) {
-            place = `
-                <div class="place-and-date">
-                    <div class="place">${item.city}, ${item.country}</div>
-                    ・
-                    <div class="date">${item.startDate.slice(8, 10)} ${dateFormat(item.startDate)}</div>
-                </div>
+        let button = ''
+        if (localStorage.getItem(item.name) && realDate(item.startDate) !== 'Finished') {
+            button = `
+                <button 
+                    class="container__header__notify-button-error" 
+                    onclick="clearNotify(event)"
+                    data-name="${item.name}"
+                >
+                Unsub!
+                </button>
+            `
+        } else if (realDate(item.startDate) === 'Finished' && realDate(item.endDate) !== 'Finished') {
+            button = `
+                <button class="container__header__notify-button-error" disabled>Started</button>
+            `
+        } else if (realDate(item.startDate) === 'Finished' && realDate(item.endDate) === 'Finished') {
+            button = `
+                <button class="container__header__notify-button-error" disabled>Finished</button>
             `
         } else {
-            date = `
-                <div class="place-and-date">
-                    <div class="date">${item.startDate.slice(8, 10)} ${dateFormat(item.startDate)}</div>
-                </div>
-            `
-        }
-
-        if (item.twitter) {
-            twitter = `
-                <div class="twitter">
-                    <a href="https://twitter.com/${item.twitter}" target="_blank">${item.twitter}</a>
-                </div>
+            button = `
+                <button 
+                    class="container__header__notify-button" 
+                    onclick="setNotify(event)" 
+                    data-date="${item.startDate}" 
+                    data-name="${item.name}"
+                >
+                Notify!
+                </button>
             `
         }
         cards.insertAdjacentHTML('beforeend', `
-            <div class="card">
-                <div class="main-info">
-                    <div class="conf-name">
-                        <a href="${item.url}" target="_blank">${item.name}</a>
-                    </div>
-                    ${item.city && item.country ? place : date }
-                </div>
-                <div class="buttons-and-links">
-                    <button class="notification" onclick="setNotify(event)" data-date="${item.startDate}" data-name="${item.name}">Notify me!</button>
-                    ${twitter}
-                </div>
-            </div>
+            <li class="events-list__element">
+                <section class="events-list__element__wrapper">
+                    <p class="events-list__element__text">${item.startDate}</p>
+                    <p class="events-list__element__text">${item.name}</p>
+                    <p class="events-list__element__text">${realDate(item.endDate)}</p>
+                </section>
+                ${button}
+            </li>
         `)
     })
 }
 
+const initializeRequest = async() => {
+    await fetch('./data.json')
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            setNotifyReload(data)
+            renderCard(data)
+        })
+}
 
-const request = new XMLHttpRequest();
-request.addEventListener('readystatechange', () => {
-    if (request.readyState !== 4) {
-        return;
-    }
-
-    if (request.status === 200) {
-        data = JSON.parse(request.response)
-        setNotifyReload(data)
-        renderCard(data)
-    } else {
-        console.log('Error');
-    }
-});
-request.open('GET', './data.json');
-request.setRequestHeader('Content-Type', 'application/json');
-request.send();
+initializeRequest()

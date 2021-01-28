@@ -1,86 +1,170 @@
 body {
-  font-family: Roboto, sans-serif;
   box-sizing: border-box;
-  width: 100%;
-  margin: 0 auto;
+  background-color: #E2E2E2;
+  font-family: Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  background: transparent;
-}
-button:active, button:focus {
-  outline: none;
-}
-
-a {
-  text-decoration: none;
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-  width: 60%;
-  margin: 0 auto;
+  width: 1000px;
+  padding-top: 10vh;
 }
 
-.cards {
-  margin-top: 20px;
+.container__header {
+  width: 100%;
+  height: 168px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
-.card {
-  border: 1px solid rgba(0, 0, 0, 0.4);
+.container__header__heading {
+  font-size: 38px;
+  font-weight: 900;
+  width: 80%;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.container__header__subscription-button {
+  width: 320px;
+  height: 50px;
   border-radius: 5px;
-  padding: 5px 12px;
+  border: none;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  background-color: #FFDA15;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button:hover {
+  background-color: #FFB800;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button:focus {
+  outline: none;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button:active {
+  background-color: #FFB800;
+  filter: brightness(0.7);
+  outline: none;
+  transition: 0.2s ease-in;
+}
+
+.container__header__subscription-button-error {
+  width: 320px;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  background-color: #ff3815;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button-error:hover {
+  background-color: #ff0000;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button-error:focus {
+  outline: none;
+  transition: 0.2s ease-in;
+}
+.container__header__subscription-button-error:active {
+  background-color: #ff0000;
+  filter: brightness(0.7);
+  outline: none;
+  transition: 0.2s ease-in;
+}
+
+.events-list {
+  width: 100%;
+}
+
+.events-list__header {
+  width: 80%;
+  padding-top: 30px;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  display: flex;
-  margin-bottom: 20px;
 }
 
-.place-and-date {
+.events-list__header__heading {
+  padding: 0 20px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.events-list__wrapper {
+  width: 100%;
+}
+
+.events-list__element {
+  width: 100%;
+  height: 70px;
+  margin: 15px 0;
+  background-color: #F6F6F6;
+  border-radius: 5px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.events-list__element__wrapper {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.place, .date {
-  color: rgba(0, 0, 0, 0.4);
-  font-weight: normal;
-  font-size: 14px;
+.events-list__element__text {
+  padding: 0 20px;
 }
 
-.conf-name {
-  color: #0b76d8;
-  font-weight: bold;
-  font-size: 24px;
+.container__header__notify-button {
+  cursor: pointer;
+  width: 16%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  background-color: #FFDA15;
+  border: none;
+  transition: 0.5s ease-in;
 }
-.conf-name:hover {
-  color: black;
-  transition: all 300ms ease-in;
+.container__header__notify-button:hover {
+  background-color: #FFB800;
+  border: none;
+  outline: none;
+  transition: 0.5s ease-in;
 }
-
-.buttons-and-links {
-  text-align: center;
+.container__header__notify-button:focus {
+  outline: none;
+  transition: 0.2s ease-in;
 }
-
-.notification {
-  font-family: Roboto, sans-serif;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  padding: 6px 12px;
-  margin-bottom: 5px;
-  transition: all 300ms ease-in;
-}
-.notification:hover {
-  color: white;
-  border: 1px solid #0b76d8;
-  background: #0b76d8;
-  transition: all 300ms ease-in;
+.container__header__notify-button:active {
+  filter: brightness(1.5);
+  outline: none;
+  transition: 0.2s ease-in;
 }
 
-.twitter {
-  font-family: Roboto, sans-serif;
-  font-weight: normal;
-  font-size: 12px;
+.container__header__notify-button-error {
+  width: 16%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  transition: 0.5s ease-in;
+  background-color: #ff3815;
 }
 
 /*# sourceMappingURL=style.css.map */
