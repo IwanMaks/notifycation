@@ -11,15 +11,7 @@ const setNotifyReload = (data) => {
                 });
                 localStorage.removeItem(item.name)
             } else {
-                while (true) {
-                    if (Date.parse(localStorage.getItem(name))-Date.now() === 259200000){
-                        new Notification('Уведомление от календаря', {
-                            body: 'До конференции ' + name + ' осталось 3 дня',
-                            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-                        });
-                        break;
-                    }
-                }
+
             }
         }
     })
