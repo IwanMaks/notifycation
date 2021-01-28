@@ -1,18 +1,39 @@
 let data = []
 const cards = document.querySelector('.cards')
 
+const logicDate = (date, name) => {
+    if (date-Date.now() < 0) {
+        new Notification('Уведомление от календаря', {
+            body: 'Конференция ' + name + ' закончилась',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+        localStorage.removeItem(name)
+    } else if (date-Date.now() < 345600000 && date-Date.now() > 172800000 && !localStorage.getItem(name+'-3')){
+        new Notification('Уведомление от календаря', {
+            body: 'Конференция ' + name + ' начнётся через 3 дня',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+        localStorage.setItem(name+'-3', 'true')
+    } else if (date-Date.now() < 691200000 && date-Date.now() > 518400000 && !localStorage.getItem(name+'-7')) {
+        new Notification('Уведомление от календаря', {
+            body: 'Конференция ' + name + ' начнётся через 7 дней',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+        localStorage.setItem(name+'-7', 'true')
+    } else if (date-Date.now() < 1296000000 && date-Date.now() > 1123200000 && !localStorage.getItem(name+'-14')) {
+        new Notification('Уведомление от календаря', {
+            body: 'Конференция ' + name + ' начнётся через 14 дней',
+            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
+        });
+        localStorage.setItem(name+'-14', 'true')
+    }
+}
+
 const setNotifyReload = (data) => {
     data.forEach(item => {
         if (localStorage.getItem(item.name)) {
-            if (Date.parse(localStorage.getItem(item.name))-Date.now() < 0) {
-                new Notification('Уведомление от календаря', {
-                    body: 'Конференция ' + item.name + ' закончилась',
-                    icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-                });
-                localStorage.removeItem(item.name)
-            } else {
-
-            }
+            const date = Date.parse(localStorage.getItem(item.name))
+            logicDate(date, item.name)
         }
     })
 }
@@ -23,18 +44,9 @@ const trueNotify = name => {
         icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
     });
 
-    if (Date.parse(localStorage.getItem(name))-Date.now() < 0) {
-        new Notification('Уведомление от календаря', {
-            body: 'Конференция ' + name + ' закончилась',
-            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-        });
-        localStorage.removeItem(name)
-    } else if (Date.parse(localStorage.getItem(name))-Date.now() === 259200000){
-        new Notification('Уведомление от календаря', {
-            body: 'До конференции ' + name + ' осталось 3 дня',
-            icon: 'https://img2.freepng.ru/20180415/rse/kisspng-computer-icons-vector-avatar-friends-5ad3420d608ec0.3997693115237944453955.jpg'
-        });
-    }
+    const date = Date.parse(localStorage.getItem(name))
+
+    logicDate(date, name)
 }
 
 const setNotify = event => {
